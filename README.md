@@ -1,3 +1,5 @@
+[![Build Status](https://circleci.com/gh/brunoroberto/UrlShortener.svg?branch=master&style=svg)](https://circleci.com/gh/brunoroberto/UrlShortener)
+
 # Url Shortener
 
 This is a simple URL shortener developed using Spring Boot
