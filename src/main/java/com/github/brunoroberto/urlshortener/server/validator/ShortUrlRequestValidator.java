@@ -1,16 +1,17 @@
 package com.github.brunoroberto.urlshortener.server.validator;
 
 import com.github.brunoroberto.urlshortener.controller.dto.ShortUrlRequest;
+import com.github.brunoroberto.urlshortener.server.config.UrlShortenerConfig;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ShortUrlRequestValidator {
 
-    private final ShortUrlRequest shortUrlRequest;
+    private final UrlShortenerConfig urlShortenerConfig;
 
-    public ShortUrlRequestValidator(ShortUrlRequest shortUrlRequest) {
-        this.shortUrlRequest = shortUrlRequest;
+    public ShortUrlRequestValidator(UrlShortenerConfig urlShortenerConfig) {
+        this.urlShortenerConfig = urlShortenerConfig;
     }
 
     public void validate(ShortUrlRequest shortUrlRequest) {
@@ -33,7 +34,10 @@ public class ShortUrlRequestValidator {
 
     private void validateExpireTime(ShortUrlRequest shortUrlRequest) {
         int expireTimeInHours = shortUrlRequest.getExpireTimeInHours();
-        if (expireTimeInHours <= 0 && expireTimeInHours > default)
+        if (expireTimeInHours <= 0 || expireTimeInHours > urlShortenerConfig.getExpireTimeInHours()) {
+            String errorMsg = String.format("Expire time must be between 1 and %d", urlShortenerConfig.getExpireTimeInHours());
+            throw new IllegalArgumentException(errorMsg);
+        }
     }
 
 }

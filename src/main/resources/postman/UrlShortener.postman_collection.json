@@ -1,0 +1,95 @@
+{
+	"info": {
+		"_postman_id": "7dcded0e-d901-4a8b-b961-40787a10494f",
+		"name": "UrlShortener",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a short url",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ce497f0-5f5d-4158-94e3-bb59ab926d4c",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.collectionVariables.set(\"urlID\", jsonData[\"urlID\"]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\": \"http://github.com\",\n    \"expireTimeInHours\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{serverAddress}}:{{serverPort}}/",
+					"host": [
+						"{{serverAddress}}"
+					],
+					"port": "{{serverPort}}",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get original url",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{serverAddress}}:{{serverPort}}/{{urlID}}",
+					"host": [
+						"{{serverAddress}}"
+					],
+					"port": "{{serverPort}}",
+					"path": [
+						"{{urlID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "23afc190-ddc0-4838-bc37-4a7bc195d605",
+			"key": "serverAddress",
+			"value": "http://localhost"
+		},
+		{
+			"id": "680aecd7-22f3-4ec7-90fc-db89c8197d0f",
+			"key": "serverPort",
+			"value": "8080"
+		},
+		{
+			"id": "d958c054-384a-42a3-9211-151ea4ec847d",
+			"key": "urlID",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}
